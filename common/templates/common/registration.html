@@ -1,0 +1,16 @@
+{% extends 'common/main_auth.html' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+<body>
+<div class="container">
+    <form class="form-signin" method="POST" action="{% url 'common:registration' %}">
+        {% csrf_token %}
+        <h2>Регистрация</h2>
+        {{ create_user }}
+        <button class="btn-btn btn btn-lg btn-primary btn-block" type="submit">Сохранить</button>
+    </form>
+</div>
+</body>
+{% endblock %}

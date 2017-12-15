@@ -1,0 +1,28 @@
+{% extends 'bulletin_board_app/main.html' %}
+{% block title %}Разместить объявление{% endblock %}
+{% load i18n admin_urls static admin_modify %}
+
+
+{%block pre_head%}
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+<script type="text/javascript" src="{% url 'bulletin_board_app:jsi18n' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}" />
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/calendar.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/DateTimeShortcuts.js' %}"></script>
+{%endblock%}
+{% block body %}
+<form method="POST" class="post-form form-horizontal" role="form">{% csrf_token %}
+
+<p>Введите теги через пробел <input type="text" name="tags" size="50"></p>
+
+{{ form_ad.as_p }}
+{% if not user.is_authenticated %}
+{{ form_cont.as_p }}
+{% endif %}
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>
+{% endblock %}

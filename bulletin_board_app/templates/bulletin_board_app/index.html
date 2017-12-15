@@ -1,0 +1,70 @@
+{% extends 'bulletin_board_app/main.html' %}
+{% block title %}Главная{% endblock %}
+
+{% block body %}
+<div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          {% for advert in adverts %}
+              <div class="blog-post">
+                  <h2 class="blog-post-title"><a href="{% url 'bulletin_board_app:view_advert_detail' advert.pk %}">{{ advert.title }}</a></h2>
+                <p class="blog-post-meta">{{ advert.created_at }} — {{ advert.active_until }} </p>
+
+                <p>{{ advert.text }}</p>
+              </div><!-- /.blog-post -->
+          {% endfor %}
+
+          <ul class="pager">
+            <li><a href="{% url 'bulletin_board_app:index' page_prev %}?{{ request.GET.urlencode }}">Назад</a></li>
+            <li><a href="{% url 'bulletin_board_app:index' page_next %}?{{ request.GET.urlencode }}">Далее</a></li>
+          </ul>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <form method="GET" action="{% url 'bulletin_board_app:index' page %}">
+                <input type="hidden" name="route" value="{{ request.GET.urlencode }}">
+                <p><input type="text" size="30" name="tag"></p> <p><input type="submit" value="Поиск по тегам"></p>
+            </form>
+            <br>
+            <form method="GET" action="{% url 'bulletin_board_app:index' page %}">
+                <input type="hidden" name="route" value="{{ request.GET.urlencode }}">
+                <p><input type="text" size="30" name="text"></p> <p><input type="submit" value="Поиск по тексту"></p>
+            </form>
+            <hr>
+            <div class="btn-group status-filter">
+              <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Сортировка по дате<span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'bulletin_board_app:index' page %}?{{ request.GET.urlencode }}&date_sort=new">Сначала новые</a></li>
+                 <li><a href="{% url 'bulletin_board_app:index' page %}?{{ request.GET.urlencode }}&date_sort=old">Сначала старые</a></li>
+              </ul>
+            </div>
+            <p></p>
+            <div class="btn-group status-filter">
+              <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">Сортировка по активности<span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{% url 'bulletin_board_app:index' page %}?{{ request.GET.urlencode }}&is_active=true">Показать только активные</a></li>
+                    <li><a href="{% url 'bulletin_board_app:index' page %}?{{ request.GET.urlencode }}&is_active=false">Показать только неактивные</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{% url 'bulletin_board_app:index' page %}?{{ request.GET.urlencode }}&is_active=all">Показывать все</a></li>
+                </ul>
+            </div>
+            <p></p>
+            <hr>
+            <form method="GET" action="{% url 'bulletin_board_app:index' page %}">
+                Фильтр по дате
+                <input type="hidden" name="route" value="{{ request.GET.urlencode }}">
+                <p>Начало<br>
+                <p class="error">{{error.start}}</p>
+                <input type="date" value="{{ start_date.date|date:'Y-m-d' }}" name="start_date">
+                <input type="time" value="{{start_date.time|time:'H:i'}}" name="start_time">
+                <br>Конец<br>
+                <p class="error">{{error.end}}</p>
+                <input type="date" value="{{ end_date.date|date:'Y-m-d' }}" name="end_date">
+                <input type="time" value="{{ end_date.time|time:'H:i' }}" name="end_time"></p>
+                <p><input type="submit" value="Фильтр по дате"></p>
+            </form>
+        </div><!-- /.blog-sidebar -->
+</div><!-- /.row -->
+{% endblock %}

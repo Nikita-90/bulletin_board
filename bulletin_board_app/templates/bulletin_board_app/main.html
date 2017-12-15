@@ -1,0 +1,61 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://bootstrap-3.ru/examples/cover/# -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {%block pre_head%}{%endblock%}
+    <link rel="stylesheet" href="{% static 'bulletin_board_app/css/bootstrap.css' %}">
+    <link href="{% static 'bulletin_board_app/css/blog.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'bulletin_board_app/js/jquery.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'bulletin_board_app/js/bootstrap.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'bulletin_board_app/js/docs.min.js' %}" ></script>
+</head>
+
+  <body><div class="blog-masthead">
+      <div class="container">
+        <nav class="sort blog-nav">
+          <a class="blog-nav-item" href="{% url 'bulletin_board_app:index' 0 %}">Главная</a>
+          <a class="blog-nav-item" href="{% url 'bulletin_board_app:add_advert' %}">Разместить объявление</a>
+            {% if user.is_authenticated %}
+          <a class="blog-nav-item" href="{% url 'bulletin_board_app:home_page' 0 %}">Домашняя страница</a>
+            <div class="navbar-right blog-nav-item">{{ user.email }}</div>
+            <div class="navbar-right blog-nav-item"><a href="{% url 'common:logout_view' %}">Выйти</a></div>
+            {%else%}
+          <a class="blog-nav-item" href="{% url 'common:authentication_user' %}">Войти</a>
+          <a class="blog-nav-item" href="{% url 'common:registration' %}">Зарегистрироваться</a>
+            {% endif %}
+          <a class="blog-nav-item" href="{% url 'bulletin_board_app:docs' %}">Документация</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+        <div class="blog-header">
+
+      </div>
+        {% block body %}{% endblock %}
+
+
+    </div><!-- /.container -->
+
+    <div class="blog-footer">
+      <p>Разработал boyko.nikita@gmail.com</p>
+        <p>Благодарность <a href="http://bootstrap-3.ru">http://bootstrap-3.ru</a></p>
+      <p>Blog template built for <a href="http://getbootstrap.com/">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+    </div>
+
+<script>
+    $(document).ready(function () {
+        $('.sort a').each(function () { //определяем общий класс меню
+            var location = window.location.href.split('?')[0];
+            var link = this.href;
+            if (location == link) {
+                $(this).addClass('active'); //добавляем класс активной вкладке
+            }
+        });
+    });
+</script>
+</body>
+</html>

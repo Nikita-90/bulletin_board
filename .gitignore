@@ -1,0 +1,12 @@
+__pycache__/
+.idea/
+/static/
+log/
+media/
+
+dump.rdb
+
+*.bash
+*.pyc
+
+local_settings.py
